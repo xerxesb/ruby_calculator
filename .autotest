@@ -1,0 +1,31 @@
+# Just like Autotest::Fixtures, but for specs
+#module Autotest::SpecFixtures
+#  Autotest.add_hook :initialize do |at|
+#    at.test_mappings['^spec/fixtures/(.*)s.yml'] = proc { |filename, matches|
+#      at.files_matching(/spec\/\w+\/#{matches[1]}(_\w+)?.*_spec.rb$/)
+#    }
+#  end
+#end
+
+
+# Just like Autotest::Fixtures, but for specs
+module Autotest::SpecFixtures
+  Autotest.known_files = '
+  Autotest.add_hook :initialize do |at|
+      at.files_matching(/spec\/calculator_spec.rb$/)
+  end
+end
+
+
+# Just like Autotest::RedGreen, but for specs
+module Autotest::SpecRedGreen
+  BAR = "=" * 80
+
+  Autotest.add_hook :ran_command do |at|
+    # TODO: submit a patch for RedGreen to make the match and code configurable
+    if at.results.last.match(/^(\d+) examples?, (\d+) failures?$/)
+      code = ($2 != "0") ? 31 : 32
+      puts "\e[#{code}m#{BAR}\e[0m\n\n" 
+    end
+  end
+end
