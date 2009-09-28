@@ -28,7 +28,7 @@ describe  "A calculator" do
 
 	it "should allow a number to be squared" do 
 		@calc.square(3).should equal(9)
-		@calc.square(2).should equal(4)
+		@calc.square(2).should equal(5)
 	end
 
 end
